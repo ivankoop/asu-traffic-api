@@ -33,6 +33,7 @@ Future main() async {
   print('Listening on localhost:${server.port}');
 
   await for (var request in server) {
+    
     handleRequest(request);
   }
 
@@ -65,6 +66,7 @@ void handleRequest(HttpRequest request) {
 //handle get requests
 void handleGet(HttpRequest request) {
   final query_params = request.uri.queryParameters;
+  
   //TODO: add here all get requests needed
   switch(request.uri.toString()) {
     case api_v + "full":
