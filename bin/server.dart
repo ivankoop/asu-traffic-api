@@ -3,17 +3,29 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'src/controllers/asu_traffic_controller.dart';
+import 'database.dart';
+import 'package:sqljocky/sqljocky.dart';
 
 //build by Ivan Koop
 
 const String api_v = "/api/v1/";
-AsuTrafficController controller;
+ConnectionPool db_pool;
 
 Future main() async {
 
-  controller = new AsuTrafficController();
+  //db connection init
+  db_pool = new ConnectionPool(
 
-  var server = await HttpServer.bind(
+    host: AsuTrafficDatabase.HOST, 
+    port: AsuTrafficDatabase.PORT, 
+    user: AsuTrafficDatabase.USER, 
+    db: AsuTrafficDatabase.DB, 
+    max: AsuTrafficDatabase.MAX
+    
+  );
+
+  //http server init
+  HttpServer server = await HttpServer.bind(
     "127.0.0.1",
     4040,
   );
@@ -53,11 +65,10 @@ void handleRequest(HttpRequest request) {
 //handle get requests
 void handleGet(HttpRequest request) {
   final query_params = request.uri.queryParameters;
-  
   //TODO: add here all get requests needed
   switch(request.uri.toString()) {
     case api_v + "full":
-      controller.onFullData(request,query_params);
+      AsuTrafficController.onFullData(request, query_params, db_pool);
       break;
 
     default:
