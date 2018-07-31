@@ -7,7 +7,7 @@ import 'package:sqljocky/sqljocky.dart';
 
 class AsuTrafficController {
 
-  static Future onFullData(HttpRequest request, Map<String, String> query_params, ConnectionPool db_pool) async {
+  static Future onFullData(HttpRequest request, ConnectionPool db_pool) async {
 
     //TODO: handle sql errors
     final results = await db_pool.query('select * from duration_info');

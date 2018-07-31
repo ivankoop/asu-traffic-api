@@ -70,7 +70,7 @@ void handleGet(HttpRequest request) {
   //TODO: add here all get requests needed
   switch(request.uri.toString()) {
     case api_v + "full":
-      AsuTrafficController.onFullData(request, query_params, db_pool);
+      AsuTrafficController.onFullData(request, db_pool);
       break;
 
     default:
