@@ -6,12 +6,15 @@ import 'src/controllers/asu_traffic_controller.dart';
 import 'database.dart';
 import 'package:sqljocky/sqljocky.dart';
 
+
 //build by Ivan Koop
 
 const String api_v = "/api/v1/";
 ConnectionPool db_pool;
 
 Future main() async {
+
+
 
   //db connection init
   db_pool = new ConnectionPool(
@@ -68,9 +71,13 @@ void handleGet(HttpRequest request) {
   final query_params = request.uri.queryParameters;
   
   //TODO: add here all get requests needed
-  switch(request.uri.toString()) {
-    case api_v + "full":
+  switch(request.uri.pathSegments[2]) {
+    case "full":
       AsuTrafficController.onFullData(request, db_pool);
+      break;
+
+    case "zone":
+      AsuTrafficController.onDataByZone(request, db_pool,request.uri.pathSegments[3]);
       break;
 
     default:
